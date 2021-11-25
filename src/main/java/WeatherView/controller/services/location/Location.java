@@ -19,7 +19,7 @@ public class Location {
     public String getCity() {return name;}
     public String getCountry() {return country;}
     public String getCityAndCountry() {
-        return entryValidation() == true ? cityAndCountry : emptyFlag;
+        return cityAndCountry;
     }
 
     private boolean entryValidation(){
