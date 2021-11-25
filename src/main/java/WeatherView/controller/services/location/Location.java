@@ -1,5 +1,8 @@
 package WeatherView.controller.services.location;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class Location {
 
     private String name;
@@ -18,12 +21,18 @@ public class Location {
         return entryValidation() == true ? cityAndCountry : "number";
     }
 
-    private boolean entryValidation(){
+	private boolean entryValidation(){
         try {
-            Integer.valueOf(cityAndCountry);
-            return validEntry = false;
+            Pattern pattern = Pattern.compile("([A-z])\\w+, [A-Z]\\w+");
+            Matcher matcher = pattern.matcher(cityAndCountry);
+            
+            if(matcher.find()){
+                validEntry = true;
+            }
+            
         } catch (Exception e){
-            return validEntry = true;
+            validEntry = false;
         }
+        return validEntry;
     }
 }
