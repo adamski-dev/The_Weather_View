@@ -166,13 +166,13 @@ public class MainViewController extends BaseController implements Initializable{
 
     protected void setUpMyLocationWeatherViews(HBox forecast) {
 
-        if (!location.getCityAndCountry().equals("")) {
+        if (location.isValidEntry()) {
 
             try {
                 actualWeather = new ActualWeather(openWMLoader.requestActualWeatherDataFromProvider(location.getCityAndCountry()));
                 forecastWeather = new ForecastWeather(openWMLoader.requestForecastWeatherDataFromProvider(location.getCityAndCountry()));
 
-                if (!actualWeather.equals("") && !forecastWeather.equals("") && !location.getCityAndCountry().equals("number")){
+                if (!actualWeather.equals("") && !forecastWeather.equals("")){
                     setActualWeatherParameters();
                     setForecastWeatherParameters(forecast);
                 } else {
@@ -185,8 +185,13 @@ public class MainViewController extends BaseController implements Initializable{
                 generalError.setText(ErrorMessages.CITY_NOT_FOUND);
             }
         } else {
-            clearView();
-            generalError.setText(ErrorMessages.LOCATION_FIELD_EMPTY);
+            if(location.isEmptyFlag()){
+                clearView();
+                generalError.setText(ErrorMessages.LOCATION_FIELD_EMPTY);
+            } else {
+                clearView();
+                generalError.setText(ErrorMessages.CITY_NOT_FOUND);
+            }
         }
     }
 
@@ -240,27 +245,31 @@ public class MainViewController extends BaseController implements Initializable{
 
     protected void setUpDestinationWeatherViews(HBox destinationForecast){
 
-        if (!location.getCityAndCountry().equals("")) {
+        if (location.isValidEntry()) {
 
             try {
                 actualWeather = new ActualWeather(openWMLoader.requestActualWeatherDataFromProvider(location.getCityAndCountry()));
                 forecastWeather = new ForecastWeather(openWMLoader.requestForecastWeatherDataFromProvider(location.getCityAndCountry()));
 
-                if (!actualWeather.equals("") && !forecastWeather.equals("") && !location.getCityAndCountry().equals("number")){
+                if (!actualWeather.equals("") && !forecastWeather.equals("")){
                     setDestinationActualWeatherParameters();
                     setForecastWeatherParameters(destinationForecast);
                 } else {
                     clearDestinationView();
                     destinationGeneralError.setText(ErrorMessages.DATA_DOWNLOAD_ERROR);
                 }
-
             } catch (Exception e) {
                 clearDestinationView();
                 destinationGeneralError.setText(ErrorMessages.CITY_NOT_FOUND);
             }
         } else {
-            clearDestinationView();
-            destinationGeneralError.setText(ErrorMessages.LOCATION_FIELD_EMPTY);
+            if(location.isEmptyFlag()){
+                clearDestinationView();
+                destinationGeneralError.setText(ErrorMessages.LOCATION_FIELD_EMPTY);
+            } else {
+                clearDestinationView();
+                destinationGeneralError.setText(ErrorMessages.CITY_NOT_FOUND);
+            }
         }
     }
 
@@ -298,4 +307,3 @@ public class MainViewController extends BaseController implements Initializable{
 
     private void loadDefaultCity() {location = new Location("Athlone, IE");}
 }
-

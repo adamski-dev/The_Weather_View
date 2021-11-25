@@ -7,6 +7,7 @@ public class Location {
 
     private String name;
     private String country;
+    private String emptyFlag = "";
 
     private String cityAndCountry;
     public boolean validEntry = false;
@@ -18,21 +19,34 @@ public class Location {
     public String getCity() {return name;}
     public String getCountry() {return country;}
     public String getCityAndCountry() {
-        return entryValidation() == true ? cityAndCountry : "number";
+        return entryValidation() == true ? cityAndCountry : emptyFlag;
     }
 
-	private boolean entryValidation(){
+    private boolean entryValidation(){
+
         try {
+            if(cityAndCountry.equals("")){
+                emptyFlag = "empty";
+            }
             Pattern pattern = Pattern.compile("([A-z])\\w+, [A-Z]\\w+");
             Matcher matcher = pattern.matcher(cityAndCountry);
-            
+
             if(matcher.find()){
                 validEntry = true;
             }
-            
-        } catch (Exception e){
-            validEntry = false;
-        }
+        } catch (Exception e){}
         return validEntry;
+    }
+
+    public boolean isValidEntry(){
+        if (entryValidation()){ return true;}
+        return false;
+    }
+
+    public boolean isEmptyFlag(){
+        if (emptyFlag.equals("empty")){
+            return true;
+        }
+        return false;
     }
 }
