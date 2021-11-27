@@ -24,8 +24,8 @@ import org.controlsfx.control.textfield.TextFields;
 
 public class MainViewController extends BaseController implements Initializable{
 
-    protected Loader loader;
-    protected Location location;
+    private Loader loader;
+    private Location location;
 
     private OpenWM owm = new OpenWM();
     private OpenWMLoader openWMLoader = new OpenWMLoader(owm);
@@ -118,7 +118,7 @@ public class MainViewController extends BaseController implements Initializable{
     void getMyLocation() {
         getLocation();
         clearView();
-        setUpMyLocationWeatherViews(forecast);
+        setUpMyLocationWeatherViews();
 
     }
 
@@ -126,10 +126,10 @@ public class MainViewController extends BaseController implements Initializable{
     void getMyDestination() {
         getDestination();
         clearDestinationView();
-        setUpDestinationWeatherViews(destinationForecast);
+        setUpDestinationWeatherViews();
     }
 
-    protected void clearView() {
+    private void clearView() {
 
         generalError.setText("");
         actualWeatherError.setText("");
@@ -146,7 +146,7 @@ public class MainViewController extends BaseController implements Initializable{
         forecast.getChildren().clear();
     }
 
-    protected void clearDestinationView(){
+    private void clearDestinationView(){
 
         destinationGeneralError.setText("");
         destinationActualWeatherError.setText("");
@@ -164,7 +164,7 @@ public class MainViewController extends BaseController implements Initializable{
     }
 
 
-    protected void setUpMyLocationWeatherViews(HBox forecast) {
+    private void setUpMyLocationWeatherViews() {
 
         if (location.isValidEntry()) {
 
@@ -243,7 +243,7 @@ public class MainViewController extends BaseController implements Initializable{
 
     }
 
-    protected void setUpDestinationWeatherViews(HBox destinationForecast){
+    private void setUpDestinationWeatherViews(){
 
         if (location.isValidEntry()) {
 
@@ -297,7 +297,7 @@ public class MainViewController extends BaseController implements Initializable{
         loadAvailableLocations();
         loadDefaultCity();
         clearView();
-        setUpMyLocationWeatherViews(forecast);
+        setUpMyLocationWeatherViews();
     }
 
     private void loadAvailableLocations() {
