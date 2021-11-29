@@ -5,7 +5,7 @@ import WeatherView.controller.services.open_weather_map.OpenWMLoader;
 
 public class ForecastWeather {
 	
-	private OpenWM owm = new OpenWM();
+    private OpenWM owm = new OpenWM();
     private OpenWMLoader openWMLoader = new OpenWMLoader(owm);
     private String data;
     private static String tomorrowsDate = StaticMethods.getTomorrowsDate();
