@@ -1,11 +1,16 @@
 package WeatherView.model;
 
-public class ActualWeather {
+import WeatherView.controller.services.open_weather_map.OpenWM;
+import WeatherView.controller.services.open_weather_map.OpenWMLoader;
 
+public class ActualWeather {
+	
+	private OpenWM owm = new OpenWM();
+    private OpenWMLoader openWMLoader = new OpenWMLoader(owm);
     private String data;
 
-    public ActualWeather(String data) {
-        this.data = data;
+    public ActualWeather(String location) {
+        this.data = openWMLoader.requestActualWeatherDataFromProvider(location);
     }
 
     public String getIcon() {

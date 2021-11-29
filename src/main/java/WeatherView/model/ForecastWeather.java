@@ -1,7 +1,12 @@
 package WeatherView.model;
 
-public class ForecastWeather {
+import WeatherView.controller.services.open_weather_map.OpenWM;
+import WeatherView.controller.services.open_weather_map.OpenWMLoader;
 
+public class ForecastWeather {
+	
+	private OpenWM owm = new OpenWM();
+    private OpenWMLoader openWMLoader = new OpenWMLoader(owm);
     private String data;
     private static String tomorrowsDate = StaticMethods.getTomorrowsDate();
     private static final int dayOneStamp = 0;
@@ -13,8 +18,8 @@ public class ForecastWeather {
     private static String dayThreeData;
     private static String dayFourData;
 
-    public ForecastWeather(String data) {
-        this.data = data;
+    public ForecastWeather(String location) {
+        this.data = openWMLoader.requestForecastWeatherDataFromProvider(location);
         this.dayOneData = getForecast(getStartDataStamp(dayOneStamp));
         this.dayTwoData = getForecast(getStartDataStamp(dayTwoStamp));
         this.dayThreeData = getForecast(getStartDataStamp(dayThreeStamp));

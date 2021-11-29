@@ -3,8 +3,6 @@ package WeatherView.controller;
 import WeatherView.ErrorMessages;
 import WeatherView.controller.services.location.Location;
 import WeatherView.controller.services.location.Loader;
-import WeatherView.controller.services.open_weather_map.OpenWM;
-import WeatherView.controller.services.open_weather_map.OpenWMLoader;
 import WeatherView.model.*;
 import com.google.gson.Gson;
 import javafx.fxml.FXML;
@@ -26,9 +24,6 @@ public class MainViewController extends BaseController implements Initializable{
 
     private Loader loader;
     private Location location;
-
-    private OpenWM owm = new OpenWM();
-    private OpenWMLoader openWMLoader = new OpenWMLoader(owm);
     private ActualWeather actualWeather;
     private ForecastWeather forecastWeather;
 
@@ -169,8 +164,8 @@ public class MainViewController extends BaseController implements Initializable{
         if (location.isValidEntry()) {
 
             try {
-                actualWeather = new ActualWeather(openWMLoader.requestActualWeatherDataFromProvider(location.getCityAndCountry()));
-                forecastWeather = new ForecastWeather(openWMLoader.requestForecastWeatherDataFromProvider(location.getCityAndCountry()));
+                actualWeather = new ActualWeather(location.getCityAndCountry());
+                forecastWeather = new ForecastWeather(location.getCityAndCountry());
 
                 if (!actualWeather.equals("") && !forecastWeather.equals("")){
                     setActualWeatherParameters();
@@ -248,8 +243,8 @@ public class MainViewController extends BaseController implements Initializable{
         if (location.isValidEntry()) {
 
             try {
-                actualWeather = new ActualWeather(openWMLoader.requestActualWeatherDataFromProvider(location.getCityAndCountry()));
-                forecastWeather = new ForecastWeather(openWMLoader.requestForecastWeatherDataFromProvider(location.getCityAndCountry()));
+                actualWeather = new ActualWeather(location.getCityAndCountry());
+                forecastWeather = new ForecastWeather(location.getCityAndCountry());
 
                 if (!actualWeather.equals("") && !forecastWeather.equals("")){
                     setDestinationActualWeatherParameters();
