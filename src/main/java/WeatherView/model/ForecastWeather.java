@@ -18,6 +18,7 @@ public class ForecastWeather {
     private static String dayThreeData;
     private static String dayFourData;
 
+
     public ForecastWeather(String location) {
         this.data = openWMLoader.requestForecastWeatherDataFromProvider(location);
         this.dayOneData = getForecast(getStartDataStamp(dayOneStamp));

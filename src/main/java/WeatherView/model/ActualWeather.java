@@ -9,6 +9,7 @@ public class ActualWeather {
     private OpenWMLoader openWMLoader = new OpenWMLoader(owm);
     private String data;
 
+
     public ActualWeather(String location) {
         this.data = openWMLoader.requestActualWeatherDataFromProvider(location);
     }
