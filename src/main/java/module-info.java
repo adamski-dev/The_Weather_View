@@ -5,7 +5,6 @@ module WeatherView {
     requires com.google.gson;
     requires java.net.http;
     requires org.controlsfx.controls;
-    requires owm.japis;
 
     opens WeatherView to javafx.fxml;
     exports WeatherView;
