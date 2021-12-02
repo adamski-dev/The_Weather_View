@@ -1,53 +1,54 @@
 package WeatherView.model;
 
-import WeatherView.controller.services.open_weather_map.OpenWM;
 import WeatherView.controller.services.open_weather_map.OpenWMLoader;
 
 public class ActualWeather {
-	
-    private OpenWM owm = new OpenWM();
-    private OpenWMLoader openWMLoader = new OpenWMLoader(owm);
-    private String data;
 
+    private final String icon;
+    private final String temperature;
+    private final String description;
+    private final String feelsLikeTemperature;
+    private final String date;
+    private final String humidity;
+    private final String pressure;
+    private final String wind;
+    private final String visibility;
 
     public ActualWeather(String location) {
-        this.data = openWMLoader.requestActualWeatherDataFromProvider(location);
+        OpenWMLoader openWMLoader = new OpenWMLoader();
+        String data = openWMLoader.requestActualWeatherDataFromProvider(location);
+        this.icon = StaticMethods.getIcon(data);
+        this.temperature = StaticMethods.calculateTemperature(data);
+        this.description = StaticMethods.getDescription(data);
+        this.feelsLikeTemperature = StaticMethods.getFeelsLikeTemperature(data);
+        this.date = StaticMethods.getActualDate();
+        this.humidity = StaticMethods.getHumidity(data);
+        this.pressure = StaticMethods.getPressure(data);
+        this.wind = StaticMethods.getWind(data);
+        this.visibility = StaticMethods.getActualVisibility(data);
     }
 
     public String getIcon() {
-        return StaticMethods.getIcon(data);
+        return icon;
     }
-
     public String getTemperature() {
-        return StaticMethods.calculateTemperature(data);
+        return temperature;
     }
-
     public String getDescription() {
-        return StaticMethods.getDescription(data);
+        return description;
     }
-
     public String getFeelsLike() {
-        return StaticMethods.getFeelsLikeTemperature(data);
+        return feelsLikeTemperature;
     }
-
     public String getDate() {
-        return StaticMethods.getActualDate();
+        return date;
     }
-
     public String getHumidity() {
-        return StaticMethods.getHumidity(data);
+        return humidity;
     }
-
     public String getPressure() {
-        return StaticMethods.getPressure(data);
+        return pressure;
     }
-
-    public String getWind() { return StaticMethods.getWind(data); }
-
-    public String getActualVisibility(){
-        return StaticMethods.getActualVisibility(data);
-    }
+    public String getWind() { return wind; }
+    public String getActualVisibility() { return visibility; }
 }
-
-
-
