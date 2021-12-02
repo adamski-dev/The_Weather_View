@@ -14,24 +14,22 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import java.net.URL;
-
 import java.util.ResourceBundle;
 
 import javafx.scene.layout.VBox;
 import org.controlsfx.control.textfield.TextFields;
 
-public class MainViewController extends BaseController implements Initializable{
+public class MainViewController extends BaseController implements Initializable {
 
-    private Loader loader;
+    private static final int NUMBER_OF_FORECAST_DAYS = 4;
+    private final Loader loader;
     private Location location;
     private ActualWeather actualWeather;
     private ForecastWeather forecastWeather;
 
-
     public MainViewController(String fxml) {
         super(fxml);
-        Gson gson = new Gson();
-        loader = new Loader(gson);
+        loader = new Loader(new Gson());
     }
 
     @FXML
@@ -85,19 +83,9 @@ public class MainViewController extends BaseController implements Initializable{
     private Label destinationDate;
 
     @FXML
-    private Label actualWeatherError;
-    @FXML
-    private Label destinationActualWeatherError;
-
-    @FXML
     private HBox forecast;
     @FXML
     private HBox destinationForecast;
-
-    @FXML
-    private Label forecastError;
-    @FXML
-    private Label destinationForecastError;
 
     @FXML
     private Label generalError;
@@ -111,23 +99,38 @@ public class MainViewController extends BaseController implements Initializable{
 
     @FXML
     void getMyLocation() {
-        getLocation();
-        clearView();
+        setLocation();
+        clearMyLocationView();
         setUpMyLocationWeatherViews();
 
     }
 
     @FXML
     void getMyDestination() {
-        getDestination();
+        setDestination();
         clearDestinationView();
         setUpDestinationWeatherViews();
     }
 
-    private void clearView() {
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        loadAvailableLocations();
+        loadDefaultCity();
+        clearMyLocationView();
+        setUpMyLocationWeatherViews();
+    }
 
+    private void loadAvailableLocations() {
+        TextFields.bindAutoCompletion(locationEntry, loader.getListOfCities().values());
+        TextFields.bindAutoCompletion(destinationEntry, loader.getListOfCities().values());
+    }
+
+    private void loadDefaultCity() {
+        location = new Location("Athlone, IE");
+    }
+
+    private void clearMyLocationView() {
         generalError.setText("");
-        actualWeatherError.setText("");
         actualTemperature.setText("");
         actualLocation.setText("");
         feelsLike.setText("");
@@ -141,24 +144,6 @@ public class MainViewController extends BaseController implements Initializable{
         forecast.getChildren().clear();
     }
 
-    private void clearDestinationView(){
-
-        destinationGeneralError.setText("");
-        destinationActualWeatherError.setText("");
-        destinationActualTemperature.setText("");
-        destinationLocation.setText("");
-        destinationFeelsLike.setText("");
-        destinationWeatherDescription.setText("");
-        destinationDate.setText("");
-        destinationWeatherIcon.setImage(null);
-        destinationHumidity.setText("");
-        destinationPressure.setText("");
-        destinationWind.setText("");
-        destinationVisibility.setText("");
-        destinationForecast.getChildren().clear();
-    }
-
-
     private void setUpMyLocationWeatherViews() {
 
         if (location.isValidEntry()) {
@@ -166,32 +151,25 @@ public class MainViewController extends BaseController implements Initializable{
             try {
                 actualWeather = new ActualWeather(location.getCityAndCountry());
                 forecastWeather = new ForecastWeather(location.getCityAndCountry());
-
-                if (!actualWeather.equals("") && !forecastWeather.equals("")){
-                    setActualWeatherParameters();
-                    setForecastWeatherParameters(forecast);
-                } else {
-                    clearView();
-                    generalError.setText(ErrorMessages.DATA_DOWNLOAD_ERROR);
-                }
+                setActualWeatherParameters();
+                setForecastWeatherParameters(forecast);
 
             } catch (Exception e) {
-                clearView();
+                clearMyLocationView();
                 generalError.setText(ErrorMessages.CITY_NOT_FOUND);
             }
         } else {
-            if(location.isEmptyFlag()){
-                clearView();
+            if (location.isEmptyFlag()) {
+                clearMyLocationView();
                 generalError.setText(ErrorMessages.LOCATION_FIELD_EMPTY);
             } else {
-                clearView();
+                clearMyLocationView();
                 generalError.setText(ErrorMessages.CITY_NOT_FOUND);
             }
         }
     }
 
     private void setActualWeatherParameters() {
-
         actualLocation.setText(location.getCityAndCountry());
         date.setText(actualWeather.getDate());
         actualTemperature.setText(actualWeather.getTemperature());
@@ -206,7 +184,7 @@ public class MainViewController extends BaseController implements Initializable{
 
     private void setForecastWeatherParameters(HBox forecast) {
 
-        for (int i=1; i<5; i++) {
+        for (int i = 1; i <= NUMBER_OF_FORECAST_DAYS; i++) {
 
             String oneDayData = forecastWeather.returnRequiredData(i);
             VBox dayVBox = new VBox();
@@ -235,30 +213,48 @@ public class MainViewController extends BaseController implements Initializable{
             dayVBox.setAlignment(Pos.CENTER);
             forecast.setSpacing(55);
         }
-
     }
 
-    private void setUpDestinationWeatherViews(){
+    private void setLocation() {
+        location = new Location(locationEntry.getText());
+    }
+
+    private void setDestination() {
+        location = new Location(destinationEntry.getText());
+    }
+
+    private void clearDestinationView() {
+
+        destinationGeneralError.setText("");
+        destinationActualTemperature.setText("");
+        destinationLocation.setText("");
+        destinationFeelsLike.setText("");
+        destinationWeatherDescription.setText("");
+        destinationDate.setText("");
+        destinationWeatherIcon.setImage(null);
+        destinationHumidity.setText("");
+        destinationPressure.setText("");
+        destinationWind.setText("");
+        destinationVisibility.setText("");
+        destinationForecast.getChildren().clear();
+    }
+
+    private void setUpDestinationWeatherViews() {
 
         if (location.isValidEntry()) {
 
             try {
                 actualWeather = new ActualWeather(location.getCityAndCountry());
                 forecastWeather = new ForecastWeather(location.getCityAndCountry());
+                setDestinationActualWeatherParameters();
+                setForecastWeatherParameters(destinationForecast);
 
-                if (!actualWeather.equals("") && !forecastWeather.equals("")){
-                    setDestinationActualWeatherParameters();
-                    setForecastWeatherParameters(destinationForecast);
-                } else {
-                    clearDestinationView();
-                    destinationGeneralError.setText(ErrorMessages.DATA_DOWNLOAD_ERROR);
-                }
             } catch (Exception e) {
                 clearDestinationView();
                 destinationGeneralError.setText(ErrorMessages.CITY_NOT_FOUND);
             }
         } else {
-            if(location.isEmptyFlag()){
+            if (location.isEmptyFlag()) {
                 clearDestinationView();
                 destinationGeneralError.setText(ErrorMessages.LOCATION_FIELD_EMPTY);
             } else {
@@ -268,7 +264,7 @@ public class MainViewController extends BaseController implements Initializable{
         }
     }
 
-    private void setDestinationActualWeatherParameters(){
+    private void setDestinationActualWeatherParameters() {
 
         destinationLocation.setText(location.getCityAndCountry());
         destinationDate.setText(actualWeather.getDate());
@@ -281,24 +277,4 @@ public class MainViewController extends BaseController implements Initializable{
         destinationVisibility.setText(actualWeather.getActualVisibility());
         destinationWeatherIcon.setImage(new Image(actualWeather.getIcon()));
     }
-
-
-
-    private void getLocation() { location = new Location(locationEntry.getText()); }
-    private void getDestination() { location = new Location(destinationEntry.getText());}
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        loadAvailableLocations();
-        loadDefaultCity();
-        clearView();
-        setUpMyLocationWeatherViews();
-    }
-
-    private void loadAvailableLocations() {
-        TextFields.bindAutoCompletion(locationEntry, loader.getListOfCities().values());
-        TextFields.bindAutoCompletion(destinationEntry, loader.getListOfCities().values());
-    }
-
-    private void loadDefaultCity() {location = new Location("Athlone, IE");}
 }
