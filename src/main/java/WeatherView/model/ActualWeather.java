@@ -49,6 +49,10 @@ public class ActualWeather {
     public String getPressure() {
         return pressure;
     }
-    public String getWind() { return wind; }
-    public String getActualVisibility() { return visibility; }
+    public String getWind() { 
+		return wind; 
+	}
+    public String getActualVisibility() { 
+		return visibility; 
+	}
 }
