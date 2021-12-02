@@ -5,12 +5,12 @@ import java.util.regex.Pattern;
 
 public class Location {
 
-    private String name;
+    private static final Pattern PATTERN = Pattern.compile("([A-z])\\w+, [A-Z]\\w+");
+	private String name;
     private String country;
-    private String emptyFlag = "";
+    private boolean emptyFlag = false;
 
-    private String cityAndCountry;
-    public boolean validEntry = false;
+    private final String cityAndCountry;
 
     public Location(String cityAndCountry) {
         this.cityAndCountry = cityAndCountry;
@@ -26,27 +26,25 @@ public class Location {
 
         try {
             if(cityAndCountry.equals("")){
-                emptyFlag = "empty";
+                emptyFlag = true;
             }
-            Pattern pattern = Pattern.compile("([A-z])\\w+, [A-Z]\\w+");
-            Matcher matcher = pattern.matcher(cityAndCountry);
+    
+            Matcher matcher = PATTERN.matcher(cityAndCountry);
 
             if(matcher.find()){
-                validEntry = true;
+                return true;
             }
-        } catch (Exception e){}
-        return validEntry;
+        } catch (Exception e){
+			e.printStackTrace();
+		}
+        return false;
     }
 
     public boolean isValidEntry(){
-        if (entryValidation()){ return true;}
-        return false;
+        return entryValidation();
     }
 
     public boolean isEmptyFlag(){
-        if (emptyFlag.equals("empty")){
-            return true;
-        }
-        return false;
+        return emptyFlag; 
     }
 }

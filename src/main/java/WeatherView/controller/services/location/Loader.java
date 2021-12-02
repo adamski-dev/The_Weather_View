@@ -12,8 +12,8 @@ import java.util.stream.Collectors;
 
 public class Loader {
 
-    private final Gson json;
     private static final String LIST_OF_CITIES_ACCESS_PATH = "json/city.list.min.json";
+	private final Gson json;
 
     public Loader(Gson json) {
         this.json = json;

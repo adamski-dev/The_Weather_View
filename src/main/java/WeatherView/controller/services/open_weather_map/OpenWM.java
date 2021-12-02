@@ -4,22 +4,18 @@ import WeatherView.config.Config;
 
 public class OpenWM {
 
-    private final String actualBase = "http://api.openweathermap.org/data/2.5/weather?q=";
-    private final String forecastBase = "http://api.openweathermap.org/data/2.5/forecast?q=";
-
-    private final String UNITS = "metric";
-    private String actualWeatherCall;
-    private String forecastWeatherCall;
+    private static final String ACTUAL_BASE = "http://api.openweathermap.org/data/2.5/weather?q=";
+    private static final String FORECAST_BASE = "http://api.openweathermap.org/data/2.5/forecast?q=";
+    private static final String UNITS = "metric";
+    
 
 
     public String getActualWeatherCall(String city) {
-        actualWeatherCall = actualBase + city + "&units=" + UNITS + "&appid=" + Config.getAPI_KEY();
-        return actualWeatherCall;
+        return ACTUAL_BASE + city + "&units=" + UNITS + "&appid=" + Config.getAPI_KEY();
     }
 
     public String getForecastWeatherCall(String city){
-        forecastWeatherCall = forecastBase + city + "&units=" + UNITS + "&appid=" + Config.getAPI_KEY();
-        return forecastWeatherCall;
+        return FORECAST_BASE + city + "&units=" + UNITS + "&appid=" + Config.getAPI_KEY();
     }
 
 

@@ -6,17 +6,15 @@ import java.nio.charset.StandardCharsets;
 
 public class OpenWMLoader {
 
-    private static String actualDataString;
-    private static String forecastDataString;
-    OpenWM openWM;
+    private final OpenWM openWM;
 
-    public OpenWMLoader(OpenWM owm) {
-        this.openWM = owm;
+    public OpenWMLoader() {
+        this.openWM = new OpenWM();
     }
 
     private static String writeProviderResponseAsDataString(Reader reader) throws IOException {
         StringBuilder stringBuilder = new StringBuilder();
-        int integerValue = 0;
+        int integerValue;
         while ((integerValue = reader.read()) >= 0) {
             stringBuilder.append((char) integerValue);
         }
@@ -36,21 +34,22 @@ public class OpenWMLoader {
     }
 
     public String requestActualWeatherDataFromProvider(String city) {
+        String actualDataString = "";
         try {
             actualDataString = getWeatherData(openWM.getActualWeatherCall(city.replace(", ", ",")).replace(" ", "%20"));
         } catch (IOException e) {
-            actualDataString = "";
+            e.printStackTrace();
         }
         return actualDataString;
     }
 
-    public String requestForecastWeatherDataFromProvider(String city){
+    public String requestForecastWeatherDataFromProvider(String city) {
+        String forecastDataString = "";
         try {
             forecastDataString = getWeatherData(openWM.getForecastWeatherCall(city.replace(", ", ",")).replace(" ", "%20"));
         } catch (IOException e) {
-            forecastDataString = "";
+            e.printStackTrace();
         }
         return forecastDataString;
     }
-
 }
