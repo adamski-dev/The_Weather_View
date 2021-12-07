@@ -37,7 +37,7 @@ public class StaticMethods {
     public static String getDescription(String data) {
 
         if (data.contains(FORECAST_WEATHER_PATTERN)) {
-            return data.substring(data.indexOf("weather") + 28, data.indexOf("description") - 3);
+            return data.substring(data.indexOf("main\":\"") + 7, data.indexOf("description") - 3);
         } else {
             String text = data.substring(data.indexOf("description") + 14, data.indexOf("icon") - 3);
             return text.substring(0, 1).toUpperCase() + text.substring(1);
