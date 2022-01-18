@@ -36,7 +36,7 @@ public class OpenWMLoader {
     public String requestActualWeatherDataFromProvider(String city) {
         String actualDataString = "";
         try {
-            actualDataString = getWeatherData(openWM.getActualWeatherCall(city.replace(", ", ",")).replace(" ", "%20"));
+            actualDataString = getWeatherData(openWM.getActualWeatherCall(city));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -46,7 +46,7 @@ public class OpenWMLoader {
     public String requestForecastWeatherDataFromProvider(String city) {
         String forecastDataString = "";
         try {
-            forecastDataString = getWeatherData(openWM.getForecastWeatherCall(city.replace(", ", ",")).replace(" ", "%20"));
+            forecastDataString = getWeatherData(openWM.getForecastWeatherCall(city));
         } catch (IOException e) {
             e.printStackTrace();
         }
