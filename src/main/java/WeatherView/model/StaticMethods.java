@@ -22,11 +22,17 @@ public class StaticMethods {
     }
 
     public static String calculateTemperature(String data) {
+		
         int intValue;
         intValue = (int) (Math.round(Double.parseDouble(data.substring(data.indexOf("temp_max") + 10, data.indexOf("pressure") - 2))));
-        if (data.contains(FORECAST_WEATHER_PATTERN)) {
-            return "" + intValue + "\u00b0" + " C";
-        } else return intValue + "\u00b0";
+		
+        if(!data.isEmpty()){
+            if (data.contains(FORECAST_WEATHER_PATTERN)) {
+                return "" + intValue + "\u00b0" + " C";
+            } else return intValue + "\u00b0";
+        } else {
+            throw new StringIndexOutOfBoundsException("Data string is empty");
+        }
     }
 
     public static String getIcon(String data) {
