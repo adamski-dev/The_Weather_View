@@ -9,7 +9,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class StaticMethodsTest {
 
-    private StaticMethodsStub staticMethodsStub = new StaticMethodsStub();
     private static final String ACTUAL_WEATHER_DATA_SAMPLE = "{\"coord\":{\"lon\":-7.95,\"lat\":53.4333},\"weather\":[{\"id\":800,\"main\":\"Clear\",\"description\":\"clear sky\",\"icon\":\"01d\"}],\"base\":\"stations\",\"main\":{\"temp\":2.45,\"feels_like\":0.14,\"temp_min\":2.1,\"temp_max\":2.45,\"pressure\":1040,\"humidity\":87,\"sea_level\":1040,\"grnd_level\":1036},\"visibility\":10000,\"wind\":{\"speed\":2.24,\"deg\":183,\"gust\":3.71},\"clouds\":{\"all\":3},\"dt\":1642072352,\"sys\":{\"type\":2,\"id\":2035516,\"country\":\"IE\",\"sunrise\":1642063283,\"sunset\":1642091943},\"timezone\":0,\"id\":2966839,\"name\":\"Athlone\",\"cod\":200}";
     private static final String FORECAST_WEATHER_DATA_SAMPLE = "1642086000,\"main\":{\"temp\":3.92,\"feels_like\":2.66,\"temp_min\":3.92,\"temp_max\":6.87,\"pressure\":1040,\"sea_level\":1040,\"grnd_level\":1034,\"humidity\":83,\"temp_kf\":-2.95},\"weather\":[{\"id\":800,\"main\":\"Clear\",\"description\":\"clear sky\",\"icon\":\"01d\"}],\"clouds\":{\"all\":2},\"wind\":{\"speed\":1.54,\"deg\":192,\"gust\":2.24},\"visibility\":10000,\"pop\":0,\"sys\":{\"pod\":\"d\"},\"dt_txt\":\"2022-01-13 15:00:00\"},{\"dt\":";
     private static final DateTimeFormatter ACTUAL_DATE_FORMAT = DateTimeFormatter.ofPattern("E, MMM dd");
@@ -23,7 +22,7 @@ class StaticMethodsTest {
 
         //when
         //then
-        assertThat(staticMethodsStub.getActualDate(), is(todaysDate));
+        assertThat(StaticMethods.getActualDate(), is(todaysDate));
     }
 
     @Test
@@ -34,7 +33,7 @@ class StaticMethodsTest {
 
         //when
         //then
-        assertThat(staticMethodsStub.getTomorrowsDate(), is(tomorrowsDate));
+        assertThat(StaticMethods.getTomorrowsDate(), is(tomorrowsDate));
     }
 
     @Test
@@ -48,10 +47,10 @@ class StaticMethodsTest {
 
         //when
         //then
-        assertThat(staticMethodsStub.getForecastDate(1), is(firstForecastDay));
-        assertThat(staticMethodsStub.getForecastDate(2), is(secondForecastDay));
-        assertThat(staticMethodsStub.getForecastDate(3), is(thirdForecastDay));
-        assertThat(staticMethodsStub.getForecastDate(4), is(fourthForecastDay));
+        assertThat(StaticMethods.getForecastDate(1), is(firstForecastDay));
+        assertThat(StaticMethods.getForecastDate(2), is(secondForecastDay));
+        assertThat(StaticMethods.getForecastDate(3), is(thirdForecastDay));
+        assertThat(StaticMethods.getForecastDate(4), is(fourthForecastDay));
     }
 
 
@@ -63,7 +62,7 @@ class StaticMethodsTest {
 
         //when
         //then
-        assertThat(staticMethodsStub.calculateTemperature(ACTUAL_WEATHER_DATA_SAMPLE), is(expectedActualTemperature));
+        assertThat(StaticMethods.calculateTemperature(ACTUAL_WEATHER_DATA_SAMPLE), is(expectedActualTemperature));
     }
 
     @Test
@@ -74,7 +73,7 @@ class StaticMethodsTest {
 
         //when
         //then
-        assertThat(staticMethodsStub.calculateTemperature(FORECAST_WEATHER_DATA_SAMPLE), is(expectedForecastTemperature));
+        assertThat(StaticMethods.calculateTemperature(FORECAST_WEATHER_DATA_SAMPLE), is(expectedForecastTemperature));
     }
 
     @Test
@@ -83,7 +82,7 @@ class StaticMethodsTest {
         //given
         //when
         //then
-        assertThrows(StringIndexOutOfBoundsException.class, () -> staticMethodsStub.calculateTemperature(""));
+        assertThrows(StringIndexOutOfBoundsException.class, () -> StaticMethods.calculateTemperature(""));
     }
 
     @Test
@@ -94,7 +93,7 @@ class StaticMethodsTest {
 
         //when
         //then
-        assertThat(staticMethodsStub.getIcon(ACTUAL_WEATHER_DATA_SAMPLE), is(expectedLink));
+        assertThat(StaticMethods.getIcon(ACTUAL_WEATHER_DATA_SAMPLE), is(expectedLink));
     }
 
     @Test
@@ -105,7 +104,7 @@ class StaticMethodsTest {
 
         //when
         //then
-        assertThat(staticMethodsStub.getIcon(FORECAST_WEATHER_DATA_SAMPLE), is(expectedLink));
+        assertThat(StaticMethods.getIcon(FORECAST_WEATHER_DATA_SAMPLE), is(expectedLink));
     }
 
     @Test
@@ -116,7 +115,7 @@ class StaticMethodsTest {
 
         //when
         //then
-        assertThat(staticMethodsStub.getDescription(ACTUAL_WEATHER_DATA_SAMPLE), is(actualWeatherDescription));
+        assertThat(StaticMethods.getDescription(ACTUAL_WEATHER_DATA_SAMPLE), is(actualWeatherDescription));
     }
 
     @Test
@@ -127,7 +126,7 @@ class StaticMethodsTest {
 
         //when
         //then
-        assertThat(staticMethodsStub.getDescription(FORECAST_WEATHER_DATA_SAMPLE), is(forecastWeatherDescription));
+        assertThat(StaticMethods.getDescription(FORECAST_WEATHER_DATA_SAMPLE), is(forecastWeatherDescription));
     }
 
 
@@ -140,7 +139,7 @@ class StaticMethodsTest {
 
         //when
         //then
-        assertThat(staticMethodsStub.getFeelsLikeTemperature(ACTUAL_WEATHER_DATA_SAMPLE), is(expectedFeelsLikeTemperature));
+        assertThat(StaticMethods.getFeelsLikeTemperature(ACTUAL_WEATHER_DATA_SAMPLE), is(expectedFeelsLikeTemperature));
     }
 
     @Test
@@ -151,7 +150,7 @@ class StaticMethodsTest {
 
         //when
         //then
-        assertThat(staticMethodsStub.getFeelsLikeTemperature(FORECAST_WEATHER_DATA_SAMPLE), is(expectedFeelsLikeTemperature));
+        assertThat(StaticMethods.getFeelsLikeTemperature(FORECAST_WEATHER_DATA_SAMPLE), is(expectedFeelsLikeTemperature));
     }
 
     @Test
@@ -162,7 +161,7 @@ class StaticMethodsTest {
 
         //when
         //then
-        assertThat(staticMethodsStub.getPressure(ACTUAL_WEATHER_DATA_SAMPLE), is(expectedActualWeatherPressure));
+        assertThat(StaticMethods.getPressure(ACTUAL_WEATHER_DATA_SAMPLE), is(expectedActualWeatherPressure));
     }
 
     @Test
@@ -173,7 +172,7 @@ class StaticMethodsTest {
 
         //when
         //then
-        assertThat(staticMethodsStub.getPressure(FORECAST_WEATHER_DATA_SAMPLE), is(expectedForecastWeatherPressure));
+        assertThat(StaticMethods.getPressure(FORECAST_WEATHER_DATA_SAMPLE), is(expectedForecastWeatherPressure));
     }
 
     @Test
@@ -184,7 +183,7 @@ class StaticMethodsTest {
 
         //when
         //then
-        assertThat(staticMethodsStub.getWind(ACTUAL_WEATHER_DATA_SAMPLE), is(expectedActualWeatherWind));
+        assertThat(StaticMethods.getWind(ACTUAL_WEATHER_DATA_SAMPLE), is(expectedActualWeatherWind));
     }
 
     @Test
@@ -195,7 +194,7 @@ class StaticMethodsTest {
 
         //when
         //then
-        assertThat(staticMethodsStub.getWind(FORECAST_WEATHER_DATA_SAMPLE), is(expectedForecastWeatherWind));
+        assertThat(StaticMethods.getWind(FORECAST_WEATHER_DATA_SAMPLE), is(expectedForecastWeatherWind));
     }
 
     @Test
@@ -206,7 +205,7 @@ class StaticMethodsTest {
 
         //when
         //then
-        assertThat(staticMethodsStub.getHumidity(ACTUAL_WEATHER_DATA_SAMPLE), is(expectedActualHumidity));
+        assertThat(StaticMethods.getHumidity(ACTUAL_WEATHER_DATA_SAMPLE), is(expectedActualHumidity));
     }
 
     @Test
@@ -217,7 +216,7 @@ class StaticMethodsTest {
 
         //when
         //then
-        assertThat(staticMethodsStub.getHumidity(FORECAST_WEATHER_DATA_SAMPLE), is(expectedForecastHumidity));
+        assertThat(StaticMethods.getHumidity(FORECAST_WEATHER_DATA_SAMPLE), is(expectedForecastHumidity));
     }
 
     @Test
@@ -228,6 +227,6 @@ class StaticMethodsTest {
 
         //when
         //then
-        assertThat(staticMethodsStub.getActualVisibility(ACTUAL_WEATHER_DATA_SAMPLE), is(expectedActualVisibility));
+        assertThat(StaticMethods.getActualVisibility(ACTUAL_WEATHER_DATA_SAMPLE), is(expectedActualVisibility));
     }
 }

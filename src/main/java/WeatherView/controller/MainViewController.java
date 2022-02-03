@@ -29,7 +29,7 @@ public class MainViewController extends BaseController implements Initializable 
 
     public MainViewController(String fxml) {
         super(fxml);
-        loader = new Loader(new Gson());
+        loader = new Loader();
     }
 
     @FXML

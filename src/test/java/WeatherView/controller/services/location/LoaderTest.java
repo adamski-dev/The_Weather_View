@@ -25,8 +25,7 @@ class LoaderTest {
     @Mock
     private Loader loader;
 
-    @InjectMocks
-    private Gson gson;
+    private final Gson gson = new Gson();
 
     private static final String LIST_OF_CITIES_ACCESS_PATH_TEST = "json/city.list.min.test.json";
 

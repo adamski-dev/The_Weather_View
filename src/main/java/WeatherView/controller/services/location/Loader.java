@@ -15,8 +15,8 @@ public class Loader {
     private static final String LIST_OF_CITIES_ACCESS_PATH = "json/city.list.min.json";
 	private final Gson json;
 
-    public Loader(Gson json) {
-        this.json = json;
+    public Loader() {
+        this.json = new Gson();
     }
 
     public Map<String, String> getListOfCities() {
